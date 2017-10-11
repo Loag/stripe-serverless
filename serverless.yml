@@ -1,0 +1,68 @@
+
+service: arbitrageur-payments 
+
+plugins:
+  - serverless-webpack
+
+# Enable auto-packing of external modules
+custom:
+  webpackIncludeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: us-east-1
+  timeout: 12 
+  stage: development
+  environment:
+    STRIPE_KEY: YOUR_STRIPE_KEY
+    MAILGUN_USER: YOUR_MAILGUN_USERNAME
+    MAILGUN_PASSWORD: YOUR_MAILGUN_PASSWORD
+
+functions:
+
+  cancelUser:
+    handler: payments/cancelUser.main
+    events:
+      - http:
+          path: user/cancel
+          method: post
+          cors: true
+          authorizer: aws_iam
+
+  subscribeUser:
+    handler: payments/subscribeUser.main
+    events:
+      - http:
+          path: user/subscribe
+          method: post
+          cors: true
+          authorizer: aws_iam
+
+  invoiceRecieved:
+    handler: payments/invoiceRecieved.main
+    events:
+      - http:
+          path: stripe/invoice/recieved
+          method: post
+
+  paymentBounced:
+    handler: payments/paymentBounced.main
+    events:
+      - http:
+          path: stripe/payment/bounced
+          method: post
+
+  canceledMessage:
+    handler: payments/canceledMessage.main
+    events:
+      - http:
+          path: stripe/payment/canceled/message
+          method: post
+
+  deleteSubscription:
+    handler: payments/deleteSubscription.main
+    events:
+      - http:
+          path: stripe/payment/deleted
+          method: post

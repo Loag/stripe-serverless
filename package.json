@@ -1,0 +1,18 @@
+{
+  "name": "stripe-lambdas",
+  "version": "1.0.0",
+  "description": "some common webhooks  and other functions for stripe",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+   "stripe": "*",
+   "nodemailer": "*"
+  },
+  "devDependencies": {
+   "aws-sdk": "*",   
+   "serverless-webpack": "^3.0.0",
+   "webpack": "^3.6.0",
+   "webpack-node-externals": "^1.6.0"
+ }
+}
